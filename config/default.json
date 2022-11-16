@@ -1,0 +1,9 @@
+{
+    "env": "development",
+    "program": "api",
+    "server": {
+        "url": "http://localhost:3000",
+        "maxResultsLimit": 1000,
+        "port": 3000
+    }
+}

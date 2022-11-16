@@ -1,0 +1,32 @@
+function start() {
+  const figlet = require('figlet')
+  const pkg = require('../package')
+
+  // Bienvenida al iniciar la API
+  process.stdout.write('\n')
+  process.stdout.write(`${figlet.textSync(`PorTuPuesto - CONECTADO`, { font: 'Ogre' })}\n`)
+  process.stdout.write('\n')
+  process.stdout.write(
+    `Versión: ${pkg.version}, Ambiente: ${process.env.NODE_ENV || 'default'}\n`,
+  )
+  process.stdout.write('\n')
+  process.stdout.write('\n')
+
+  // Ejecutando la API
+  const program = require('..')
+
+  program
+    .start()
+    .then((result) => {
+      console.log(`Servidor api iniciado`)
+      console.log(`Ambiente ${process.env.NODE_ENV || 'default'}`)
+      if (result && result.url) {
+        console.log(`Esperando por solicitudes HTTP en ${result.url}`)
+      }
+    })
+    .catch((err) => {
+      console.err(`Error al iniciar el servidor api: `, err)
+    })
+}
+
+start()
