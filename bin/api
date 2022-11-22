@@ -4,7 +4,7 @@ function start() {
 
   // Bienvenida al iniciar la API
   process.stdout.write('\n')
-  process.stdout.write(`${figlet.textSync(`PorTuPuesto - CONECTADO`, { font: 'Ogre' })}\n`)
+  process.stdout.write(`${figlet.textSync(`PTP - CONECTADO`, { font: 'Ogre' })}\n`)
   process.stdout.write('\n')
   process.stdout.write(
     `Versión: ${pkg.version}, Ambiente: ${process.env.NODE_ENV || 'default'}\n`,
@@ -25,7 +25,7 @@ function start() {
       }
     })
     .catch((err) => {
-      console.err(`Error al iniciar el servidor api: `, err)
+      console.error(`Error al iniciar el servidor api: ${err.message}`)
     })
 }
 
