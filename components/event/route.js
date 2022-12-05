@@ -53,13 +53,16 @@ function agregarEvento(req, res) {
 }
 
 function modificarEvento(req, res) {
-    const { Evento_nombre, Evento_descrip, Evento_clave_BM, Evento_fecha } = req.body;
+    const { Evento_nombre, Evento_descrip, Evento_clave_BM, Evento_monto, Evento_fecha, Evento_estado } = req.body;
     const query = `UPDATE Evento SET 
                     Evento_nombre = ?,
                     Evento_descrip = ?,
                     Evento_clave_BM = ?, 
-                    Evento_fecha = ? WHERE Evento_ID = ?`;
-    req.db.run(query, [Evento_nombre, Evento_descrip, Evento_clave_BM, Evento_fecha, req.params.id], (err) => {
+                    Evento_monto = ?,
+                    Evento_fecha = ?,
+                    Evento_estado = ?
+                    WHERE Evento_ID = ?`;
+    req.db.run(query, [Evento_nombre, Evento_descrip, Evento_clave_BM, Evento_monto, Evento_fecha, Evento_estado, req.params.id], (err) => {
         if(err) {
             res.json({ "error": err.message });
             return;
