@@ -2,34 +2,58 @@ const { Router } = require('express')
 const router = new Router()
 
 router.get('/', obtenerVentas)
-router.get('/:id', obtenerVenta)
+/* router.get('/:id', obtenerVenta) */
 router.post('/', agregarVenta)
-router.put('/:id', modificarVenta)
-router.delete('/:id', eliminarVenta)
+/* router.put('/:id', modificarVenta) */
+router.delete('/:ide&:idp&:precio', eliminarVenta)
 
-async function obtenerVentas(req, res, next) {
-    res.json({ "api": "ventas" });
-    return;
+function obtenerVentas(req, res) {
+    const query = `SELECT * FROM Venta`;    
+    req.db.all(query, [], (err, resultado) => {
+        if(err) {
+            res.json({ "error": err.message });
+            return;
+        }
+        res.status(200).json(resultado);
+    }); 
 }
 
-async function obtenerVenta(req, res, next) {
+/* async function obtenerVenta(req, res, next) {
     res.json({ "api": "venta" });
     return;
+} */
+
+function agregarVenta(req, res) {
+    const { Evento_ID, Producto_ID, Producto_precio } = req.body;
+    const query = `INSERT INTO Venta 
+                    (Evento_ID, 
+                    Producto_ID, 
+                    Producto_Precio) 
+                    VALUES 
+                    (?, ?, ?)`;
+    req.db.run(query, [Evento_ID, Producto_ID, Producto_precio], (err) => {
+        if(err) {
+            res.json({ "error": err.message });
+            return;
+        }
+        res.status(200).json({ status: 'Venta agregada en la BD' });
+    });
 }
 
-async function agregarVenta(req, res, next) {
-    res.json({ "api": "nueva venta" });
-    return;
-}
-
-async function modificarVenta(req, res, next) {
+/* async function modificarVenta(req, res, next) {
     res.json({ "api": "modificar venta" });
     return;
-}
+} */
 
-async function eliminarVenta(req, res, next) {
-    res.json({ "api": "eliminar venta" });
-    return;
+function eliminarVenta(req, res) {
+    const query = `DELETE FROM Venta WHERE Venta_ID = (SELECT Venta_ID FROM Venta WHERE Evento_ID = ? AND Producto_ID = ? AND Producto_precio = ? LIMIT 1)`;
+    req.db.run(query, [req.params.ide, req.params.idp, req.params.precio], (err) => {
+        if(err) {
+            res.json({ "error": err.message });
+            return;
+        }
+        res.status(200).json({ status: 'Venta eliminada de la BD' });
+    });
 }
 
 module.exports = router
