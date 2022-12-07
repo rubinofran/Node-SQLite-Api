@@ -18,11 +18,6 @@ function obtenerVentas(req, res) {
     }); 
 }
 
-/* async function obtenerVenta(req, res, next) {
-    res.json({ "api": "venta" });
-    return;
-} */
-
 function agregarVenta(req, res) {
     const { Evento_ID, Producto_ID, Producto_precio } = req.body;
     const query = `INSERT INTO Venta 
@@ -39,11 +34,6 @@ function agregarVenta(req, res) {
         res.status(200).json({ status: 'Venta agregada en la BD' });
     });
 }
-
-/* async function modificarVenta(req, res, next) {
-    res.json({ "api": "modificar venta" });
-    return;
-} */
 
 function eliminarVenta(req, res) {
     const query = `DELETE FROM Venta WHERE Venta_ID = (SELECT Venta_ID FROM Venta WHERE Evento_ID = ? AND Producto_ID = ? AND Producto_precio = ? LIMIT 1)`;
